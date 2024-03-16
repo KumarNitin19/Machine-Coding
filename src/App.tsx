@@ -6,8 +6,8 @@ import Timeline from "./react/timeline";
 function App() {
   return (
     <div className="app">
-      {/* <Autocomplete /> */}
-      {/* <Timeline /> */}
+      <Autocomplete />
+      <Timeline />
       <Breadcrumb />
     </div>
   );

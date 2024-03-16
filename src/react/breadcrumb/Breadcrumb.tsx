@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useEffect } from "react";
 import { BREADCRUMB_LIST } from "./Breadcrumb.constant";
 

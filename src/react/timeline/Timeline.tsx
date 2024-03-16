@@ -1,8 +1,8 @@
-import * as React from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import { TIMELINE } from "./Timeline.constant";
 
-const Timeline = () => {
+const Timeline: React.FC = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
   useEffect(() => {
     addStyle();
