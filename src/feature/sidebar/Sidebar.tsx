@@ -4,9 +4,9 @@ import { addStyle } from "../../utils/addStyle";
 const Sidebar: React.FC = () => {
   const style = `
       .sidebar{
-        width:30%;
+        width:25%;
         height:100%;
-        border-right:1px solid grey;
+        border-right:1.5px solid grey;
       }
     `;
   useEffect(() => {
@@ -14,7 +14,7 @@ const Sidebar: React.FC = () => {
   });
   return (
     <div className="sidebar">
-      <div>Sidebar</div>
+      <div>Ming</div>
     </div>
   );
 };
