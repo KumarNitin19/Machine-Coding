@@ -1,14 +1,12 @@
 import "./App.css";
-import Autocomplete from "./react/autocomplete";
-import Breadcrumb from "./react/breadcrumb";
-import Timeline from "./react/timeline";
+import Sidebar from "./feature/sidebar";
+import Introduction from "./pages/introduction";
 
 function App() {
   return (
     <div className="app">
-      <Autocomplete />
-      <Timeline />
-      <Breadcrumb />
+      <Sidebar />
+      <Introduction />
     </div>
   );
 }

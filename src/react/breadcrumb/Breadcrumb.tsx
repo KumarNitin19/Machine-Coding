@@ -1,9 +1,25 @@
 import { useEffect } from "react";
+import { addStyle } from "../../utils/addStyle";
 import { BREADCRUMB_LIST } from "./Breadcrumb.constant";
 
 const Breadcrumb = () => {
+  const style = ` 
+    .react-breadcrumb, .react-breadcrumb-label{
+        display:flex;
+        gap:8px;
+    }
+    .react-breadcrumb-label{
+        cursor:pointer;
+        font-size:14px;
+        font-weight:500;
+    }
+    .react-breadcrumb .active{
+      color:blue;
+    }
+      `;
+
   useEffect(() => {
-    addStyle();
+    addStyle(style);
   }, []);
   return (
     <div className="react-breadcrumb">
@@ -18,24 +34,3 @@ const Breadcrumb = () => {
 };
 
 export default Breadcrumb;
-
-const addStyle = () => {
-  const Breadcrumb = ` 
-    .react-breadcrumb, .react-breadcrumb-label{
-        display:flex;
-        gap:8px;
-    }
-    .react-breadcrumb-label{
-        cursor:pointer;
-        font-size:14px;
-        font-weight:500;
-    }
-    .active{
-      color:blue;
-    }
-      `;
-  const styled = document.createElement("style");
-
-  styled.innerHTML = Breadcrumb;
-  document.head.appendChild(styled);
-};

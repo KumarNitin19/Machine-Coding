@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { addStyle } from "../../utils/addStyle";
 import { AUTOCOMPLETE_OPTIONS } from "./AutoComplete.constant";
 import {
   AutocompleteArrayChildrenType,
@@ -12,78 +13,7 @@ const Autocomplete: React.FC = () => {
     []
   );
 
-  useEffect(() => {
-    if (inputVal) {
-      const data = AUTOCOMPLETE_OPTIONS?.filter((item) =>
-        item?.label.toLocaleLowerCase().includes(inputVal.toLocaleLowerCase())
-      );
-      setOptions(data);
-    } else {
-      setOptions(AUTOCOMPLETE_OPTIONS);
-    }
-  }, [inputVal]);
-
-  useEffect(() => {
-    addStyle();
-  }, []);
-
-  const handleSelect = (item: AutocompleteArrayChildrenType) => {
-    setInputVal("");
-    setSelectedOptions((prev) => [...prev, item]);
-  };
-
-  const handleRemove = (item: AutocompleteArrayChildrenType) => {
-    const filteredData = selectedOptions?.filter(
-      (opt) => opt?.label !== item?.label
-    );
-    setSelectedOptions(filteredData);
-  };
-
-  return (
-    <div className="react-autocomplete">
-      <div className="autocomplete-input">
-        <div className="autocomplete-chip">
-          {selectedOptions?.length
-            ? selectedOptions?.map((item: AutocompleteArrayChildrenType) => (
-                <div className="chip">
-                  <div>{item?.label}</div>
-                  <div
-                    className="remove-icon"
-                    onClick={() => handleRemove(item)}>
-                    x
-                  </div>
-                </div>
-              ))
-            : ""}
-        </div>
-        <input
-          type="text"
-          value={inputVal}
-          placeholder="Search Something!"
-          onChange={(e) => setInputVal(e.target.value)}
-        />
-      </div>
-      <div className="autocomplete-listBox">
-        <ul className="autocomplete-list">
-          {options?.length
-            ? options?.map(
-                (item: AutocompleteArrayChildrenType, index: number) => (
-                  <li key={index} onClick={() => handleSelect(item)}>
-                    {item?.label}
-                  </li>
-                )
-              )
-            : "No data found"}
-        </ul>
-      </div>
-    </div>
-  );
-};
-
-export default Autocomplete;
-
-const addStyle = () => {
-  const Autocomplete = ` 
+  const style = ` 
       .react-autocomplete{
         width:50%;
       }
@@ -150,8 +80,73 @@ const addStyle = () => {
         cursor:pointer;
       }
       `;
-  const styled = document.createElement("style");
 
-  styled.innerHTML = Autocomplete;
-  document.head.appendChild(styled);
+  useEffect(() => {
+    if (inputVal) {
+      const data = AUTOCOMPLETE_OPTIONS?.filter((item) =>
+        item?.label.toLocaleLowerCase().includes(inputVal.toLocaleLowerCase())
+      );
+      setOptions(data);
+    } else {
+      setOptions(AUTOCOMPLETE_OPTIONS);
+    }
+  }, [inputVal]);
+
+  useEffect(() => {
+    addStyle(style);
+  }, []);
+
+  const handleSelect = (item: AutocompleteArrayChildrenType) => {
+    setInputVal("");
+    setSelectedOptions((prev) => [...prev, item]);
+  };
+
+  const handleRemove = (item: AutocompleteArrayChildrenType) => {
+    const filteredData = selectedOptions?.filter(
+      (opt) => opt?.label !== item?.label
+    );
+    setSelectedOptions(filteredData);
+  };
+
+  return (
+    <div className="react-autocomplete">
+      <div className="autocomplete-input">
+        <div className="autocomplete-chip">
+          {selectedOptions?.length
+            ? selectedOptions?.map((item: AutocompleteArrayChildrenType) => (
+                <div className="chip">
+                  <div>{item?.label}</div>
+                  <div
+                    className="remove-icon"
+                    onClick={() => handleRemove(item)}>
+                    x
+                  </div>
+                </div>
+              ))
+            : ""}
+        </div>
+        <input
+          type="text"
+          value={inputVal}
+          placeholder="Search Something!"
+          onChange={(e) => setInputVal(e.target.value)}
+        />
+      </div>
+      <div className="autocomplete-listBox">
+        <ul className="autocomplete-list">
+          {options?.length
+            ? options?.map(
+                (item: AutocompleteArrayChildrenType, index: number) => (
+                  <li key={index} onClick={() => handleSelect(item)}>
+                    {item?.label}
+                  </li>
+                )
+              )
+            : "No data found"}
+        </ul>
+      </div>
+    </div>
+  );
 };
+
+export default Autocomplete;
