@@ -1,5 +1,7 @@
 import React from "react";
 const StopWatch: React.FC = () => {
+  const handleResetTimer = () => {};
+  const handleStartTimer = () => {};
   return (
     <div className="stop-watch">
       <div className="stop-watch-label">Stop Watch</div>
@@ -20,8 +22,12 @@ const StopWatch: React.FC = () => {
         </div>
       </div>
       <div className="stop-watch-actions">
-        <button className="stop-watch-timer-reset">Reset</button>
-        <button className="stop-watch-timer-start">Start</button>
+        <button className="stop-watch-timer-reset" onClick={handleResetTimer}>
+          Reset
+        </button>
+        <button className="stop-watch-timer-start" onClick={handleStartTimer}>
+          Start
+        </button>
       </div>
     </div>
   );
