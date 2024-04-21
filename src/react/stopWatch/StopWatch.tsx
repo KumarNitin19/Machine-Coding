@@ -1,5 +1,4 @@
-import React from "react";
-const StopWatch: React.FC = () => {
+const StopWatch = () => {
   const handleResetTimer = () => {};
   const handleStartTimer = () => {};
   return (
