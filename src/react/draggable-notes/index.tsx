@@ -1,11 +1,13 @@
+import { useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { addStyle } from "../../utils/addStyle";
 import { NOTES } from "./constant";
-import { NotesProp } from "./type";
+import { NoteProp, NotesProp } from "./type";
 
 const DraggableNotes = () => {
   const [notes, setNotes] = useState<NotesProp>([]);
+  const noteRef = useRef([]);
   const style = ` 
     .notes{
         position:relative;
@@ -17,11 +19,20 @@ const DraggableNotes = () => {
   }, []);
 
   useEffect(() => {
+    const notesFromLocalStorage = localStorage.getItem("notes");
+    const savedNotes = notesFromLocalStorage
+      ? JSON.parse(notesFromLocalStorage)
+      : [];
     const updatedNotes: NotesProp = NOTES.map((note) => {
+      const savedNote = savedNotes.find((n: NoteProp) => n.id === note.id);
+      if (savedNote) {
+        return { ...note, position: savedNote?.position };
+      }
       const position = determinNewPosition();
       return { ...note, position };
     });
     setNotes(updatedNotes);
+    localStorage.setItem("notes", JSON.stringify(updatedNotes));
   }, [NOTES.length]);
 
   const determinNewPosition = () => {
@@ -35,16 +46,17 @@ const DraggableNotes = () => {
   return (
     <div className="notes">
       {notes.map((item) => (
-        <Note key={item.id} position={item?.position} text={item.text} />
+        <Note key={item.id} {...item} />
       ))}
     </div>
   );
 };
 
 const Note = (props: any) => {
-  const { text, position } = props;
+  console.log(props);
+  const { text, position, id } = props;
   const style = ` 
-    .note{
+    .note-${id}{
         position:absolute;
         left:${position?.x}px;
         top:${position?.y}px;
@@ -63,7 +75,7 @@ const Note = (props: any) => {
   }, []);
 
   return (
-    <div className="note" {...props}>
+    <div className={`note-${id}`} {...props}>
       📍 {text}
     </div>
   );
