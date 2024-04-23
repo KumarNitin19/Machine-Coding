@@ -1,5 +1,6 @@
-import { useRef } from "react";
+import { createRef, useRef } from "react";
 import { useState } from "react";
+import { forwardRef } from "react";
 import { useEffect } from "react";
 import { addStyle } from "../../utils/addStyle";
 import { NOTES } from "./constant";
@@ -7,7 +8,7 @@ import { NoteProp, NotesProp } from "./type";
 
 const DraggableNotes = () => {
   const [notes, setNotes] = useState<NotesProp>([]);
-  const noteRef = useRef([]);
+  const noteRefs = useRef<any>();
   const style = ` 
     .notes{
         position:relative;
@@ -43,17 +44,33 @@ const DraggableNotes = () => {
       y: Math.floor(Math.random() * maxY),
     };
   };
+
+  const handleDragStart = (e: Event, noteId: string | number) => {
+    const noteRef = noteRefs.current[noteId].current;
+    const rect = noteRef.getBoundingClientRect;
+  };
+
   return (
     <div className="notes">
-      {notes.map((item) => (
-        <Note key={item.id} {...item} />
+      {notes.map((item: NoteProp) => (
+        <Note
+          key={item.id}
+          ref={
+            noteRefs.current[item.id]
+              ? noteRefs.current[item.id]
+              : (noteRefs.current[item.id] = createRef())
+          }
+          id={item.id}
+          text={item.text}
+          position={item.position}
+          onMouseDown={(e: Event) => handleDragStart(e, item.id)}
+        />
       ))}
     </div>
   );
 };
 
-const Note = (props: any) => {
-  console.log(props);
+const Note: React.FC<any> = forwardRef((props, ref) => {
   const { text, position, id } = props;
   const style = ` 
     .note-${id}{
@@ -75,10 +92,10 @@ const Note = (props: any) => {
   }, []);
 
   return (
-    <div className={`note-${id}`} {...props}>
+    <div ref={ref} className={`note-${id}`} {...props}>
       📍 {text}
     </div>
   );
-};
+});
 
 export default DraggableNotes;
