@@ -1,0 +1,52 @@
+.file-explorer-container {
+  padding: 6px;
+}
+
+.folder-children {
+  padding-left: 6px;
+  border-left: 1px solid white;
+}
+
+.folder-name,
+.file-name {
+  padding: 4px 0;
+}
+
+.folder-name {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 16px;
+}
+
+.open-close-icon {
+  transition: all 0.3sec;
+}
+
+.open {
+  transform: rotate(0deg);
+}
+
+.close {
+  transform: rotate(-90deg);
+}
+
+.folder-header {
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.folder-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.folder-actions > button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+}
