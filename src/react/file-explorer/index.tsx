@@ -6,27 +6,12 @@ const Root = {
   id: "1",
   name: "root",
   type: "folder",
-  children: [
-    {
-      id: "2",
-      name: "File 1",
-      type: "file",
-    },
-    {
-      id: "3",
-      name: "Folder 1",
-      type: "folder",
-    },
-    {
-      id: "4",
-      name: "File 2",
-      type: "file",
-    },
-  ],
+  isRoot: true,
+  children: [],
 };
 
 const findAndAddItem = (mainData, parentId, itemToBeAdded) => {
-  let output;
+  let output = {};
   if (mainData?.id === parentId) {
     output = {
       ...mainData,
@@ -47,6 +32,17 @@ const findAndAddItem = (mainData, parentId, itemToBeAdded) => {
   return output;
 };
 
+const findAndDeleteItem = (mainData, itemId) => {
+  let output = {};
+  const updatedData = mainData?.children?.filter((child) => {
+    if (child?.id !== itemId) {
+      return findAndDeleteItem(child, itemId);
+    }
+  });
+  output = { ...mainData, children: updatedData };
+  return output;
+};
+
 const FileExplorer = () => {
   const [rootFolder, setRootFolder] = useState(Root);
 
@@ -55,10 +51,15 @@ const FileExplorer = () => {
     setRootFolder(updatedData);
   };
 
+  const onDelete = (itemId) => {
+    const updatedData = findAndDeleteItem(rootFolder, itemId);
+    setRootFolder(updatedData);
+  };
+
   return (
     <div className="file-explorer-container">
       <div>File Explorer</div>
-      <Folder folderData={rootFolder} onAdd={onAdd} />
+      <Folder folderData={rootFolder} onAdd={onAdd} onDelete={onDelete} />
     </div>
   );
 };

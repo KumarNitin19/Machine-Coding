@@ -6,9 +6,11 @@ type Props = {
     id: string;
     name: string;
     type: "folder" | "file";
+    isRoot?: boolean;
     children?: Array<unknown>;
   };
   onAdd: (id: any, item: any) => void;
+  onDelete: (id: any) => void;
 };
 
 const OpenCollapseIcon = ({ isOpen }: { isOpen: boolean }) => {
@@ -25,7 +27,7 @@ const OpenCollapseIcon = ({ isOpen }: { isOpen: boolean }) => {
   );
 };
 
-const Folder = ({ folderData, onAdd }: Props) => {
+const Folder = ({ folderData, onAdd, onDelete }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isAddItem, setIsAddItem] = useState(false);
   const [selectedAddItem, setSelectedAddItem] = useState("");
@@ -60,6 +62,13 @@ const Folder = ({ folderData, onAdd }: Props) => {
     [selectedAddItem, itemName, onAdd, handleCloseAddItem]
   );
 
+  const handleDelete = useCallback(
+    (itemId) => {
+      onDelete(itemId);
+    },
+    [onDelete]
+  );
+
   return (
     <div className="folder-container">
       <div className="folder-header">
@@ -92,6 +101,20 @@ const Folder = ({ folderData, onAdd }: Props) => {
               />
             </svg>
           </button>
+          {!folderData?.isRoot ? (
+            <button onClick={() => handleDelete(folderData?.id)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24">
+                <path
+                  fill="#fff"
+                  d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"
+                />
+              </svg>
+            </button>
+          ) : null}
         </div>
       </div>
       {isAddItem ? (
@@ -109,9 +132,16 @@ const Folder = ({ folderData, onAdd }: Props) => {
         <div className="folder-children">
           {folderData?.children?.map((item: any) => {
             if (item?.type === "folder") {
-              return <Folder key={item.id} folderData={item} onAdd={onAdd} />;
+              return (
+                <Folder
+                  key={item.id}
+                  folderData={item}
+                  onAdd={onAdd}
+                  onDelete={onDelete}
+                />
+              );
             } else {
-              return <File key={item.id} fileData={item} />;
+              return <File key={item?.id} fileData={item} />;
             }
           })}
         </div>
