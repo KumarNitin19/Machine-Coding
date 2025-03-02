@@ -1,6 +1,6 @@
 import "./App.css";
 import Sidebar from "./feature/sidebar";
-import FileExplorer from "./react/file-explorer";
+// import FileExplorer from "./react/file-explorer";
 import ReactDom from "./react/react-dom";
 // import InfiniteScroll from "./react/infinite-scroll";
 // import Introduction from "./pages/introduction";
