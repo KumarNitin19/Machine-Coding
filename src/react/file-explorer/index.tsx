@@ -18,27 +18,32 @@ const findAndAddItem = (mainData, parentId, itemToBeAdded) => {
       children: [...mainData?.children, itemToBeAdded],
     };
   } else {
-    const updatedData = mainData?.children?.map((child) => {
-      if (child?.id === parentId) {
-        return {
-          ...child,
-          children: [...child?.children, itemToBeAdded],
-        };
-      }
-      return findAndAddItem(child, parentId, itemToBeAdded);
-    });
-    output = { ...mainData, children: updatedData };
+    output = {
+      ...mainData,
+      children: mainData?.children?.map((child) => {
+        if (child?.id === parentId) {
+          return {
+            ...child,
+            children: [...child?.children, itemToBeAdded],
+          };
+        }
+        return findAndAddItem(child, parentId, itemToBeAdded);
+      }),
+    };
   }
   return output;
 };
 
 const findAndDeleteItem = (mainData, itemId) => {
   let output = {};
-  const updatedData = mainData?.children?.filter((child) => {
-    if (child?.id !== itemId) {
-      return findAndDeleteItem(child, itemId);
-    }
-  });
+  const updatedData = mainData?.children
+    ?.map((child) => {
+      if (child?.id !== itemId) {
+        return findAndDeleteItem(child, itemId);
+      }
+    })
+    .filter(Boolean);
+
   output = { ...mainData, children: updatedData };
   return output;
 };
